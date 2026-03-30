@@ -1,4 +1,5 @@
 import { Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const SidebarSkeleton = () => {
   // Create 8 skeleton items
@@ -20,7 +21,13 @@ const SidebarSkeleton = () => {
       {/* Skeleton Contacts */}
       <div className="overflow-y-auto w-full py-3">
         {skeletonContacts.map((_, idx) => (
-          <div key={idx} className="w-full p-3 flex items-center gap-3">
+          <motion.div
+            key={idx}
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
+            className="w-full p-3 flex items-center gap-3"
+          >
             {/* Avatar skeleton */}
             <div className="relative mx-auto lg:mx-0">
               <div className="skeleton size-12 rounded-full" />
@@ -31,7 +38,7 @@ const SidebarSkeleton = () => {
               <div className="skeleton h-4 w-32 mb-2" />
               <div className="skeleton h-3 w-16" />
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </aside>

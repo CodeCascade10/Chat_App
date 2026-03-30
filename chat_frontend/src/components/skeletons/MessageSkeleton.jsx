@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 const MessageSkeleton = () => {
   // Create an array of 6 items for skeleton messages
   const skeletonMessages = Array(6).fill(null);
@@ -5,7 +7,13 @@ const MessageSkeleton = () => {
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
       {skeletonMessages.map((_, idx) => (
-        <div key={idx} className={`chat ${idx % 2 === 0 ? "chat-start" : "chat-end"}`}>
+        <motion.div
+          key={idx}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: idx * 0.1 }}
+          className={`chat ${idx % 2 === 0 ? "chat-start" : "chat-end"}`}
+        >
           <div className="chat-image avatar">
             <div className="size-10 rounded-full">
               <div className="skeleton w-full h-full rounded-full" />
@@ -19,7 +27,7 @@ const MessageSkeleton = () => {
           <div className="chat-bubble bg-transparent p-0">
             <div className="skeleton h-16 w-[200px]" />
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

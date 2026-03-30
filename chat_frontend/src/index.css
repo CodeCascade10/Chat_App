@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .scrollbar-hide {
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+body {
+  /* Cosmic Nebula Dark Antigravity Background */
+  background: 
+    radial-gradient(circle at 15% 50%, rgba(45, 10, 89, 0.45), transparent 60%),
+    radial-gradient(circle at 85% 30%, rgba(0, 150, 255, 0.25), transparent 60%),
+    radial-gradient(circle at 50% 100%, rgba(10, 15, 28, 1), transparent 60%),
+    #080b12; /* Deep charcoal/midnight base */
+  background-attachment: fixed;
+  color: #e2e8f0;
+  min-height: 100vh;
+}

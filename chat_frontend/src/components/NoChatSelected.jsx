@@ -1,55 +1,46 @@
-import { Link } from "react-router-dom";
-import { useAuthStore } from "../store/useAuthStore";
-import { LogOut, MessageSquare, Settings, User } from "lucide-react";
+import { Radio } from "lucide-react";
+import { motion } from "framer-motion";
 
-const Navbar = () => {
-  const { logout, authUser } = useAuthStore();
-
+const NoChatSelected = () => {
   return (
-    <header
-      className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 
-    backdrop-blur-lg bg-base-100/80"
-    >
-      <div className="container mx-auto px-4 h-16">
-        <div className="flex items-center justify-between h-full">
-          <div className="flex items-center gap-8">
-            <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
-              <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                <MessageSquare className="w-5 h-5 text-primary" />
-              </div>
-              <h1 className="text-lg font-bold">Chatty</h1>
-            </Link>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Link
-              to={"/settings"}
-              className={`
-              btn btn-sm gap-2 transition-colors
-              
-              `}
+    <div className="w-full flex flex-1 flex-col items-center justify-center p-16 bg-transparent">
+      <div className="max-w-md text-center space-y-6">
+        {/* Icon Display */}
+        <div className="flex justify-center gap-4 mb-4">
+          <div className="relative">
+            <motion.div
+              className="w-24 h-24 rounded-[2.5rem] bg-[#00F7FF]/5 flex items-center justify-center border border-[#00F7FF]/20 backdrop-blur-md"
+              animate={{ 
+                y: [0, -20, 0],
+                boxShadow: ["0 10px 30px rgba(0,247,255,0.05)", "0 20px 50px rgba(0,247,255,0.2)", "0 10px 30px rgba(0,247,255,0.05)"]
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Settings className="w-4 h-4" />
-              <span className="hidden sm:inline">Settings</span>
-            </Link>
-
-            {authUser && (
-              <>
-                <Link to={"/profile"} className={`btn btn-sm gap-2`}>
-                  <User className="size-5" />
-                  <span className="hidden sm:inline">Profile</span>
-                </Link>
-
-                <button className="flex gap-2 items-center" onClick={logout}>
-                  <LogOut className="size-5" />
-                  <span className="hidden sm:inline">Logout</span>
-                </button>
-              </>
-            )}
+              <Radio className="w-12 h-12 text-[#00F7FF]" />
+            </motion.div>
           </div>
         </div>
+
+        {/* Welcome Text */}
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00F7FF] to-[#B4A0FF] tracking-tight drop-shadow-[0_0_10px_rgba(0,247,255,0.2)]"
+        >
+          Welcome to Pingify!
+        </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="text-slate-400 text-lg"
+          >
+            Select a conversation from the sidebar to start chatting
+          </motion.p>
       </div>
-    </header>
+    </div>
   );
 };
-export default Navbar;
+
+export default NoChatSelected;

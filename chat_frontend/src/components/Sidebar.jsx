@@ -3,6 +3,7 @@ import { useChatStore } from "../store/useChatStore";
 import { useAuthStore } from "../store/useAuthStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Sidebar = () => {
   const { getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -21,8 +22,8 @@ const Sidebar = () => {
   if (isUsersLoading) return <SidebarSkeleton />;
 
   return (
-    <aside className="h-full w-20 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200">
-      <div className="border-b border-base-300 w-full p-5">
+    <aside className="h-full w-20 lg:w-72 border-r border-[#B4A0FF]/25 flex flex-col transition-all duration-500 bg-[#0a0f1c]/40">
+      <div className="border-b border-[#B4A0FF]/25 w-full p-6">
         <div className="flex items-center gap-2">
           <Users className="size-6" />
           <span className="font-medium hidden lg:block">Contacts</span>
@@ -42,27 +43,35 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="overflow-y-auto w-full py-3">
-        {filteredUsers.map((user) => (
-          <button
+      <div className="overflow-y-auto w-full py-3 scrollbar-hide">
+        {filteredUsers.map((user, idx) => (
+          <motion.button
             key={user._id}
             onClick={() => setSelectedUser(user)}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: idx * 0.05 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className={`
-              w-full p-3 flex items-center gap-3
-              hover:bg-base-300 transition-colors
-              ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}
+              w-full p-4 flex items-center gap-4
+              hover:bg-[#00F7FF]/10 transition-all duration-500 ease-in-out rounded-2xl mx-3
+              ${selectedUser?._id === user._id ? "bg-[#00F7FF]/15 shadow-[0_0_20px_rgba(0,247,255,0.15)] ring-1 ring-[#00F7FF]/60" : "border-l-4 border-transparent"}
             `}
+            style={{ width: 'calc(100% - 24px)' }}
           >
             <div className="relative mx-auto lg:mx-0">
               <img
                 src={user.profilePic || "/avatar.png"}
                 alt={user.name}
-                className="size-12 object-cover rounded-full"
+                className="size-14 object-cover rounded-[1.5rem] shadow-[0_0_15px_rgba(0,0,0,0.5)]"
               />
               {onlineUsers.includes(user._id) && (
-                <span
-                  className="absolute bottom-0 right-0 size-3 bg-green-500 
-                  rounded-full ring-2 ring-zinc-900"
+                <motion.span
+                  animate={{ opacity: [1, 0.6, 1], boxShadow: ["0 0 10px #00F7FF", "0 0 25px #00F7FF", "0 0 10px #00F7FF"] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                  className="absolute -bottom-1 -right-1 size-4 bg-[#00F7FF] 
+                  rounded-full ring-2 ring-[#0b101e]"
                 />
               )}
             </div>
@@ -74,7 +83,7 @@ const Sidebar = () => {
                 {onlineUsers.includes(user._id) ? "Online" : "Offline"}
               </div>
             </div>
-          </button>
+          </motion.button>
         ))}
 
         {filteredUsers.length === 0 && (
